@@ -17,6 +17,7 @@
             --shadow: 0 15px 35px rgba(0,0,0,0.1);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --border-radius: 18px;
+            --error: #d9534f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
@@ -118,6 +119,48 @@
         }
         .galeria-item:hover img { transform: scale(1.05); }
 
+        /* --- SEÇÃO SOBRE A PAMPA --- */
+        .sobre-pampa {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 100px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .sobre-content { flex: 1; }
+        .sobre-content h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.8rem; 
+            margin-bottom: 25px; 
+            color: var(--primary);
+        }
+        .sobre-content p { 
+            color: var(--text-muted); 
+            line-height: 1.8; 
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .sobre-img-container { 
+            flex: 1; 
+            height: 500px; 
+            border-radius: 30px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow);
+        }
+        .sobre-img-container img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+
+        @media (max-width: 850px) {
+            .sobre-pampa { flex-direction: column; text-align: center; }
+            .sobre-img-container { width: 100%; height: 350px; }
+        }
+
         /* --- CARDS --- */
         .card {
             background: var(--white);
@@ -161,7 +204,7 @@
         .modal-info { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; }
         .fechar-modal { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 10; }
 
-        /* --- NOVO COMBO BUILDER --- */
+        /* --- COMBO BUILDER --- */
         .combo-header {
             position: sticky; top: -40px; background: white; z-index: 5;
             padding-bottom: 20px; border-bottom: 1px solid #eee; margin-bottom: 20px;
@@ -208,39 +251,83 @@
         .btn-qty-mini:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
         .btn-qty-mini:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        /* --- NOVO CHECKOUT --- */
-        .method-selector { display: flex; gap: 10px; margin: 20px 0; }
-        .method-card {
-            flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 15px;
-            text-align: center; cursor: pointer; transition: var(--transition);
-        }
-        .method-card.active { border-color: var(--accent); background: #fffcf5; }
-        .method-card i { display: block; font-size: 1.5rem; margin-bottom: 5px; }
-
-        .checkout-box { background: #f9f9f9; border-radius: 18px; padding: 20px; margin-top: 15px; }
-        .address-input { 
-            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; 
-            margin-top: 8px; font-family: inherit;
-        }
-        .alert-pampa {
-            background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px;
-            border-radius: 10px; color: #e65100; font-size: 0.85rem; margin-top: 10px;
-        }
-
-        /* --- CARRINHO --- */
+        /* --- AJUSTES NO CARRINHO LATERAL (FOCO DO PEDIDO) --- */
         #carrinho-lateral {
             position: fixed; right: -450px; top: 0; width: 400px; height: 100%;
             background: var(--white); z-index: 3000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 40px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
         #carrinho-lateral.active { right: 0; }
-        .cart-item { padding: 20px 0; border-bottom: 1px solid #eee; }
-        .cart-item-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        
+        #itens-carrinho { 
+            flex: 1; 
+            overflow-y: auto; 
+            margin-bottom: 10px;
+            padding-right: 5px;
+        }
+        
+        .cart-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .cart-item-header { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 0.9rem; }
+
+        /* Alerta de Erro Visual */
+        #error-message {
+            display: none;
+            background: #fff5f5;
+            color: var(--error);
+            border: 1px solid #feb2b2;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #entrega-container {
+            margin-top: 5px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .method-selector { 
+            display: flex; 
+            gap: 8px; 
+            margin: 10px 0; 
+        }
+        .method-card {
+            flex: 1; padding: 8px; border: 1px solid #eee; border-radius: 12px;
+            text-align: center; cursor: pointer; transition: var(--transition);
+        }
+        .method-card.active { border-color: var(--accent); background: #fffcf5; border-width: 2px; }
+        .method-card span { font-size: 1.2rem; }
+
+        .checkout-box { 
+            background: #f7f7f7; 
+            border-radius: 12px; 
+            padding: 12px; 
+            margin-top: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .address-input { 
+            width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; 
+            margin-top: 4px; font-family: inherit; font-size: 0.85rem;
+        }
+
+        .cart-footer {
+            padding-top: 15px; 
+            border-top: 2px solid #eee; 
+            margin-top: 10px;
+            background: var(--white);
+        }
 
         .btn-action {
             width: 100%; background: var(--accent); color: white; border: none;
-            padding: 18px; border-radius: 15px; font-weight: 600; cursor: pointer;
-            transition: var(--transition); margin-top: 20px;
+            padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer;
+            transition: var(--transition); margin-top: 12px; font-size: 1rem;
         }
         .btn-action:hover { background: var(--accent-hover); transform: translateY(-2px); }
         .btn-action:disabled { background: #ccc; cursor: not-allowed; }
@@ -261,7 +348,7 @@
             <a href="#combos">Combos</a>
             <a href="#galeria">Galeria</a>
             <div class="cart-trigger" onclick="toggleCarrinho()">
-                <span>🛒</span> <span id="cart-count">0</span> Itens
+                <span>🛒</span> <span id="cart-count">0</span> <span id="cart-label">Itens</span>
             </div>
         </nav>
     </header>
@@ -317,6 +404,17 @@
         </div>
     </section>
 
+    <section class="sobre-pampa" id="sobre">
+        <div class="sobre-content">
+            <h2>Sobre a Pampa</h2>
+            <p>Nascemos da paixão pela tradição e pelo sabor autêntico. A Pampa busca trazer em cada alfajor a essência dos pampas, unindo ingredientes de alta qualidade a um processo artesanal cuidadoso.</p>
+            <p>Nosso compromisso é proporcionar uma experiência gourmet única, onde cada detalhe — desde a textura da massa até a intensidade do recheio — é pensado para criar momentos memoráveis.</p>
+        </div>
+        <div class="sobre-img-container">
+            <img src="https://via.placeholder.com/600x500?text=Espaço+para+Foto+Pampa" alt="Sobre a Pampa">
+        </div>
+    </section>
+
     <div id="modal" onclick="fecharModalExterno(event)">
         <div class="modal-content">
             <span class="fechar-modal" onclick="fecharModal()">&times;</span>
@@ -325,18 +423,24 @@
     </div>
 
     <div id="carrinho-lateral">
-        <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Seu Pedido</h2>
-        <div id="itens-carrinho" style="flex: 1; overflow-y: auto;"></div>
+        <h2 style="font-family: 'Playfair Display'; margin-bottom: 15px; font-size: 1.5rem;">Seu Pedido</h2>
+        
+        <div id="itens-carrinho"></div>
+
+        <div id="error-message">
+            ⚠️ <strong>Quase lá!</strong><br>
+            Para prosseguir com a entrega, por favor preencha os campos obrigatórios: <b>Bairro, Rua e Número</b>.
+        </div>
         
         <div id="entrega-container" style="display: none;">
             <div class="method-selector">
                 <div id="btn-entrega" class="method-card active" onclick="setMetodo('entrega')">
                     <span>🛵</span>
-                    <strong style="display:block; font-size:0.8rem">Entrega</strong>
+                    <strong style="display:block; font-size:0.7rem; text-transform: uppercase;">Entrega</strong>
                 </div>
                 <div id="btn-retirada" class="method-card" onclick="setMetodo('retirada')">
                     <span>🛍️</span>
-                    <strong style="display:block; font-size:0.8rem">Retirada</strong>
+                    <strong style="display:block; font-size:0.7rem; text-transform: uppercase;">Retirada</strong>
                 </div>
             </div>
 
@@ -344,21 +448,21 @@
                 </div>
         </div>
 
-        <div style="padding-top: 20px; border-top: 2px solid #eee; margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);">
+        <div class="cart-footer">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px;">
                 <span>Subtotal</span>
                 <span id="cart-subtotal">R$ 0,00</span>
             </div>
-            <div id="linha-taxa" style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);">
+            <div id="linha-taxa" style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px;">
                 <span>Taxa de Entrega</span>
                 <span id="cart-taxa">R$ 0,00</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.4rem; margin-top: 5px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.25rem; margin-top: 8px;">
                 <span>Total</span>
                 <span id="cart-total">R$ 0,00</span>
             </div>
             <button class="btn-action" onclick="enviarWhatsApp()">Finalizar no WhatsApp</button>
-            <p onclick="toggleCarrinho()" style="text-align: center; margin-top: 15px; cursor: pointer; color: var(--text-muted); font-size: 0.8rem;">Continuar Comprando</p>
+            <p onclick="toggleCarrinho()" style="text-align: center; margin-top: 12px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem;">Voltar para a loja</p>
         </div>
     </div>
 
@@ -376,6 +480,15 @@
         let comboAtual = null;
         let metodoRecebimento = 'entrega';
 
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
         function renderHome() {
             const grid = document.getElementById('lista-sabores');
             grid.innerHTML = SABORES_DATA.map(s => `
@@ -390,15 +503,28 @@
             `).join('');
         }
 
+        function toggleCarrinho() {
+            document.getElementById('carrinho-lateral').classList.toggle('active');
+            // Ao abrir ou fechar, limpa o erro
+            document.getElementById('error-message').style.display = 'none';
+        }
+
         function abrirModalCombo(tamanho, precoBase) {
             const selecao = {};
             SABORES_DATA.forEach(s => {
                 selecao[s.id] = { MeioAmargo: 0, AoLeite: 0, Branco: 0 };
             });
-
             comboAtual = { tamanho, precoBase, selecao };
             renderComboBuilder();
             document.getElementById('modal').style.display = 'flex';
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function fecharModalExterno(e) {
+            if(e.target.id === 'modal') fecharModal();
         }
 
         function renderComboBuilder() {
@@ -482,6 +608,12 @@
             metodoRecebimento = metodo;
             document.getElementById('btn-entrega').classList.toggle('active', metodo === 'entrega');
             document.getElementById('btn-retirada').classList.toggle('active', metodo === 'retirada');
+            document.getElementById('error-message').style.display = 'none'; // Limpa erro ao trocar método
+            atualizarCarrinhoUI();
+        }
+
+        function removerItem(id) {
+            carrinho = carrinho.filter(i => i.idUnique !== id);
             atualizarCarrinhoUI();
         }
 
@@ -502,7 +634,7 @@
                             <strong>${item.nome}</strong>
                             <span>R$ ${item.preco.toFixed(2)}</span>
                         </div>
-                        <small style="color: var(--text-muted); display: block; line-height: 1.4;">
+                        <small style="color: var(--text-muted); display: block; line-height: 1.4; font-size: 0.75rem;">
                             ${item.tipo === 'unitario' ? `Qtd: ${item.qtd} | ${item.cobertura}` : item.resumo}
                         </small>
                         <div style="text-align: right; margin-top: 5px;">
@@ -515,28 +647,45 @@
             let taxa = 0;
             if (metodoRecebimento === 'entrega') {
                 const bairroVal = document.getElementById('bairro-checkout')?.value || "";
+                const ruaVal = document.getElementById('end-rua')?.value || "";
+                const numVal = document.getElementById('end-numero')?.value || "";
+                const compVal = document.getElementById('end-complemento')?.value || "";
+
                 taxa = (bairroVal && bairroVal !== 'outros') ? parseFloat(bairroVal) : 0;
                 checkoutDetalhes.innerHTML = `
                     <div class="form-group">
-                        <label style="font-size:0.75rem; font-weight:600">Seu Bairro:</label>
+                        <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Bairro:</label>
                         <select id="bairro-checkout" class="address-input" onchange="atualizarCarrinhoUI()">
                             <option value="">Selecione...</option>
+                            <option value="4" ${bairroVal === '4' ? 'selected' : ''}>Vila de Ponta Negra (R$4)</option>
                             <option value="6" ${bairroVal === '6' ? 'selected' : ''}>Ponta Negra / Capim Macio (R$6)</option>
-                            <option value="13" ${bairroVal === '13' ? 'selected' : ''}>Nova Parnamirim (R$13)</option>
-                            <option value="18" ${bairroVal === '18' ? 'selected' : ''}>Tirol / Centro (R$18)</option>
+                            <option value="13" ${bairroVal === '13' ? 'selected' : ''}>Nova Parnamirim / Neópolis (R$13)</option>
+                            <option value="18" ${bairroVal === '18' ? 'selected' : ''}>Centro / Tirol (R$18)</option>
                             <option value="outros" ${bairroVal === 'outros' ? 'selected' : ''}>Outro bairro (A consultar)</option>
                         </select>
                     </div>
-                    <div class="form-group" style="margin-top:10px">
-                        <label style="font-size:0.75rem; font-weight:600">Endereço Completo:</label>
-                        <input type="text" id="end-checkout" class="address-input" placeholder="Rua, número, apto...">
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <div style="flex: 2;">
+                            <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Rua:</label>
+                            <input type="text" id="end-rua" class="address-input" placeholder="Rua..." value="${ruaVal}" oninput="document.getElementById('error-message').style.display='none'">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Nº:</label>
+                            <input type="text" id="end-numero" class="address-input" placeholder="Nº" value="${numVal}" oninput="document.getElementById('error-message').style.display='none'">
+                        </div>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Complemento (Opcional):</label>
+                        <input type="text" id="end-complemento" class="address-input" placeholder="Apto, bloco, ponto de ref..." value="${compVal}">
                     </div>
                 `;
             } else {
-                checkoutDetalhes.innerHTML = `<div style="text-align:center; padding:10px 0"><p style="font-size:0.9rem; font-weight:600; color:var(--accent)">📍 Local de Retirada:</p><p style="font-size:0.8rem; color:var(--text-muted)">Vila de Ponta Negra, Natal/RN</p></div>`;
+                checkoutDetalhes.innerHTML = `<div style="text-align:center; padding:5px 0"><p style="font-size:0.75rem; font-weight:600; color:var(--accent)">📍 Retirada: Vila de Ponta Negra<br><span style="font-weight:400; color:var(--text-muted)">mais informações via whatsapp</span></p></div>`;
             }
 
             document.getElementById('cart-count').innerText = carrinho.length;
+            document.getElementById('cart-label').innerText = carrinho.length === 1 ? 'Item' : 'Itens';
+            
             subtotalEl.innerText = `R$ ${subtotal.toFixed(2)}`;
             taxaEl.innerText = metodoRecebimento === 'retirada' ? 'R$ 0,00' : (taxa > 0 ? `R$ ${taxa.toFixed(2)}` : 'A combinar');
             totalEl.innerText = `R$ ${(subtotal + taxa).toFixed(2)}`;
@@ -551,7 +700,7 @@
                 if(sel.AoLeite > 0) itensResumo.push(`${sel.AoLeite}x ${sObj.nome} (Ao Leite)`);
                 if(sel.Branco > 0) itensResumo.push(`${sel.Branco}x ${sObj.nome} (Branco)`);
             });
-            carrinho.push({ tipo: 'combo', nome: `Combo ${comboAtual.tamanho} Unidades`, resumo: itensResumo.join('<br>'), preco: calculateComboPrice(), idUnique: Date.now() });
+            carrinho.push({ tipo: 'combo', nome: `Combo ${comboAtual.tamanho}`, resumo: itensResumo.join('<br>'), preco: calculateComboPrice(), idUnique: Date.now() });
             fecharModal(); atualizarCarrinhoUI(); toggleCarrinho();
         }
 
@@ -559,43 +708,89 @@
             const s = SABORES_DATA.find(x => x.id === id);
             const container = document.getElementById('modal-container');
             container.innerHTML = `
-                <h2 style="font-family: 'Playfair Display'; font-size: 2rem;">${s.nome}</h2>
-                <div style="margin-bottom: 20px;"><label>Escolha a Cobertura:</label><select id="cobertura-single" class="address-input">${COBERTURAS.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>
-                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px;"><button onclick="updateQty(-1)" class="btn-qty-mini">-</button><span id="qty-val">1</span><button onclick="updateQty(1)" class="btn-qty-mini">+</button></div>
-                <button class="btn-action" onclick="addSingleAoCarrinho(${id})">Adicionar • R$ <span id="price-val">${s.preco.toFixed(2)}</span></button>`;
+                <h2 style="font-family: 'Playfair Display'; font-size: 2rem; margin-bottom:10px;">${s.nome}</h2>
+                <p style="color:var(--text-muted); margin-bottom:20px;">${s.desc}</p>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; margin-bottom:10px; font-weight:600;">Escolha a Cobertura:</label>
+                    ${COBERTURAS.map(c => `
+                        <label style="display:block; margin-bottom:8px; cursor:pointer;">
+                            <input type="radio" name="cob-unitaria" value="${c}" checked> ${c}
+                        </label>
+                    `).join('')}
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; margin-bottom:10px; font-weight:600;">Quantidade:</label>
+                    <div class="qty-controls" style="justify-content:flex-start;">
+                         <button class="btn-qty-mini" onclick="this.nextElementSibling.innerText = Math.max(1, parseInt(this.nextElementSibling.innerText)-1)">-</button>
+                         <span id="qtd-sabor-modal" style="min-width:40px; text-align:center; font-weight:bold;">1</span>
+                         <button class="btn-qty-mini" onclick="this.previousElementSibling.innerText = parseInt(this.previousElementSibling.innerText)+1">+</button>
+                    </div>
+                </div>
+                <button class="btn-action" onclick="addSaborAoCarrinho(${s.id})">Adicionar R$ ${s.preco.toFixed(2)}</button>
+            `;
             document.getElementById('modal').style.display = 'flex';
         }
 
-        function updateQty(delta) {
-            let el = document.getElementById('qty-val');
-            let pEl = document.getElementById('price-val');
-            let val = parseInt(el.innerText) + delta;
-            if(val < 1) val = 1;
-            el.innerText = val;
-            const saborNome = document.querySelector('.modal-info h2').innerText;
-            const sabor = SABORES_DATA.find(s => s.nome === saborNome);
-            pEl.innerText = (sabor.preco * val).toFixed(2);
-        }
-
-        function addSingleAoCarrinho(id) {
+        function addSaborAoCarrinho(id) {
             const s = SABORES_DATA.find(x => x.id === id);
-            const qtd = parseInt(document.getElementById('qty-val').innerText);
-            carrinho.push({ tipo: 'unitario', nome: s.nome, qtd: qtd, cobertura: document.getElementById('cobertura-single').value, preco: s.preco * qtd, idUnique: Date.now() });
+            const cob = document.querySelector('input[name="cob-unitaria"]:checked').value;
+            const qtd = parseInt(document.getElementById('qtd-sabor-modal').innerText);
+            carrinho.push({
+                tipo: 'unitario',
+                idSabor: id,
+                nome: s.nome,
+                cobertura: cob,
+                qtd: qtd,
+                preco: s.preco * qtd,
+                idUnique: Date.now()
+            });
             fecharModal(); atualizarCarrinhoUI(); toggleCarrinho();
         }
 
-        function removerItem(id) { carrinho = carrinho.filter(i => i.idUnique !== id); atualizarCarrinhoUI(); }
-        function toggleCarrinho() { document.getElementById('carrinho-lateral').classList.toggle('active'); }
-        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
-        function fecharModalExterno(e) { if(e.target.id === 'modal') fecharModal(); }
-
         function enviarWhatsApp() {
-            if(carrinho.length === 0) return alert("Seu carrinho está vazio.");
-            let msg = "*Novo Pedido - PAMPA*\n\n";
-            carrinho.forEach(item => { msg += `*${item.nome}* - R$ ${item.preco.toFixed(2)}\n${item.tipo === 'unitario' ? 'Qtd: ' + item.qtd + ' | ' + item.cobertura : item.resumo.replace(/<br>/g, '\n')}\n\n`; });
-            msg += `\n*TOTAL: ${document.getElementById('cart-total').innerText}*`;
-            const fone = "5584999999999"; 
-            window.open(`https://wa.me/${fone}?text=${encodeURIComponent(msg)}`);
+            if (carrinho.length === 0) return;
+
+            const erroEl = document.getElementById('error-message');
+
+            if (metodoRecebimento === 'entrega') {
+                const bairro = document.getElementById('bairro-checkout').value;
+                const rua = document.getElementById('end-rua').value;
+                const num = document.getElementById('end-numero').value;
+
+                if (!bairro || !rua || !num) {
+                    erroEl.style.display = 'block';
+                    document.getElementById('itens-carrinho').scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+            }
+
+            erroEl.style.display = 'none';
+
+            let texto = `*NOVO PEDIDO - PAMPA*\n\n`;
+            carrinho.forEach(item => {
+                texto += `*${item.nome}*\n`;
+                texto += item.tipo === 'unitario' ? `${item.qtd}x ${item.cobertura}\n` : `${item.resumo.replace(/<br>/g, '\n')}\n`;
+                texto += `R$ ${item.preco.toFixed(2)}\n\n`;
+            });
+
+            texto += `--------------------------\n`;
+            texto += `*Subtotal:* ${document.getElementById('cart-subtotal').innerText}\n`;
+            texto += `*Entrega:* ${document.getElementById('cart-taxa').innerText}\n`;
+            texto += `*TOTAL: ${document.getElementById('cart-total').innerText}*\n\n`;
+
+            if (metodoRecebimento === 'entrega') {
+                const bSelect = document.getElementById('bairro-checkout');
+                const bText = bSelect.options[bSelect.selectedIndex].text;
+                texto += `*ENTREGA EM:* ${document.getElementById('end-rua').value}, ${document.getElementById('end-numero').value}\n`;
+                texto += `*Bairro:* ${bText}\n`;
+                const comp = document.getElementById('end-complemento').value;
+                if(comp) texto += `*Comp:* ${comp}`;
+            } else {
+                texto += `*MÉTODO: RETIRADA NA LOJA*`;
+            }
+
+            const fone = "5584999999999"; // Ajuste seu número aqui
+            window.open(`https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`);
         }
 
         renderHome();
