@@ -90,7 +90,7 @@
         .section-title { text-align: center; margin-bottom: 60px; }
         .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 15px; }
 
-        .grid-sabores, .grid-combos {
+        .grid-sabores, .grid-duplos, .grid-combos {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
@@ -345,8 +345,10 @@
         <img src="logo.png" alt="PAMPA Logo" class="logo-img"> <nav>
             <a href="#">Início</a>
             <a href="#sabores">Sabores</a>
+            <a href="#duplos">Duplos</a>
             <a href="#combos">Combos</a>
             <a href="#galeria">Galeria</a>
+            <a href="#sobre">Sobre</a>
             <div class="cart-trigger" onclick="toggleCarrinho()">
                 <span>🛒</span> <span id="cart-count">0</span> <span id="cart-label">Itens</span>
             </div>
@@ -364,6 +366,14 @@
             <h2>Nossos Sabores</h2>
         </div>
         <div class="grid-sabores" id="lista-sabores"></div>
+    </section>
+
+    <section class="container" id="duplos">
+        <div class="section-title">
+            <h2>Alfajores Duplos</h2>
+            <p>Mais recheio, o dobro de sabor. <strong>Leve 2 ou mais por R$ 10,00 cada!</strong></p>
+        </div>
+        <div class="grid-duplos" id="lista-duplos"></div>
     </section>
 
     <section class="container" id="combos" style="background: #fff; border-radius: 60px 60px 0 0;">
@@ -468,10 +478,17 @@
 
     <script>
         const SABORES_DATA = [
-            { id: 1, nome: "Doce de Leite", desc: "O clássico tradicional.", preco: 7, img: "https://via.placeholder.com/100?text=DL" },
-            { id: 2, nome: "Ganache", desc: "Chocolate meio amargo intenso.", preco: 7, img: "https://via.placeholder.com/100?text=GN" },
-            { id: 3, nome: "Ninho", desc: "Creme de Ninho.", preco: 7, img: "https://via.placeholder.com/100?text=NH" },
-            { id: 4, nome: "Morango", desc: "Recheado com muito Morango.", preco: 8, img: "https://via.placeholder.com/100?text=MG" }
+            { id: 1, nome: "Doce de Leite", desc: "O clássico tradicional.", preco: 7, img: "alfadocedeleite.png", tipo: "normal" },
+            { id: 2, nome: "Ganache", desc: "Chocolate meio amargo intenso.", preco: 7, img: "https://via.placeholder.com/100?text=GN", tipo: "normal" },
+            { id: 3, nome: "Ninho", desc: "Creme de Ninho.", preco: 7, img: "alfaninho.png", tipo: "normal" },
+            { id: 4, nome: "Morango", desc: "Recheado com muito Morango.", preco: 8, img: "https://via.placeholder.com/100?text=MG", tipo: "normal" }
+        ];
+
+        const DUPLOS_DATA = [
+            { id: 101, nome: "Doce de Leite Duplo", desc: "Recheio em dobro.", preco: 11, img: "https://via.placeholder.com/100?text=DDL+DUPLO", tipo: "duplo" },
+            { id: 102, nome: "Ganache Duplo", desc: "Mais chocolate, mais sabor.", preco: 11, img: "https://via.placeholder.com/100?text=GN+DUPLO", tipo: "duplo" },
+            { id: 103, nome: "Ninho Duplo", desc: "Extra cremosidade.", preco: 11, img: "https://via.placeholder.com/100?text=NH+DUPLO", tipo: "duplo" },
+            { id: 104, nome: "Morango Duplo", desc: "Explosão de morango.", preco: 11, img: "https://via.placeholder.com/100?text=MG+DUPLO", tipo: "duplo" }
         ];
 
         const COBERTURAS = ["Meio Amargo", "Ao Leite", "Branco"];
@@ -490,9 +507,21 @@
         });
 
         function renderHome() {
-            const grid = document.getElementById('lista-sabores');
-            grid.innerHTML = SABORES_DATA.map(s => `
-                <div class="card" onclick="abrirModalSabor(${s.id})">
+            const gridNormal = document.getElementById('lista-sabores');
+            gridNormal.innerHTML = SABORES_DATA.map(s => `
+                <div class="card" onclick="abrirModalSabor(${s.id}, 'normal')">
+                    <div class="card-img" style="background-image: url('${s.img}')"></div>
+                    <div class="card-body">
+                        <h3>${s.nome}</h3>
+                        <p>${s.desc}</p>
+                        <span class="preco-tag">R$ ${s.preco.toFixed(2)}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            const gridDuplos = document.getElementById('lista-duplos');
+            gridDuplos.innerHTML = DUPLOS_DATA.map(s => `
+                <div class="card" onclick="abrirModalSabor(${s.id}, 'duplo')">
                     <div class="card-img" style="background-image: url('${s.img}')"></div>
                     <div class="card-body">
                         <h3>${s.nome}</h3>
@@ -503,9 +532,68 @@
             `).join('');
         }
 
+        function abrirModalSabor(id, tipo) {
+            const produto = tipo === 'duplo' ? DUPLOS_DATA.find(p => p.id === id) : SABORES_DATA.find(p => p.id === id);
+            const container = document.getElementById('modal-container');
+            
+            container.innerHTML = `
+                <div style="text-align:center; padding-bottom: 20px;">
+                    <img src="${produto.img}" style="width:120px; border-radius:15px; margin-bottom:15px;">
+                    <h2 style="font-family:'Playfair Display'">${produto.nome}</h2>
+                    <p style="color:var(--text-muted)">${produto.desc}</p>
+                </div>
+                <div class="sabor-group-card">
+                    <strong style="display:block; margin-bottom:15px;">Escolha a Cobertura:</strong>
+                    ${COBERTURAS.map(cob => `
+                        <label style="display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer">
+                            <input type="radio" name="cobertura" value="${cob}" checked> ${cob}
+                        </label>
+                    `).join('')}
+                </div>
+                <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center">
+                    <div class="qty-controls">
+                        <button class="btn-qty-mini" onclick="ajustarQtdModal(-1)">-</button>
+                        <span id="qtd-modal" style="font-weight:600; min-width:20px; text-align:center">1</span>
+                        <button class="btn-qty-mini" onclick="ajustarQtdModal(1)">+</button>
+                    </div>
+                    <span class="preco-tag">R$ ${produto.preco.toFixed(2)}</span>
+                </div>
+                <button class="btn-action" onclick="adicionarUnitarioAoCarrinho(${produto.id}, '${tipo}')">Adicionar ao Carrinho</button>
+            `;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function ajustarQtdModal(delta) {
+            const el = document.getElementById('qtd-modal');
+            let novaQtd = parseInt(el.innerText) + delta;
+            if (novaQtd < 1) novaQtd = 1;
+            el.innerText = novaQtd;
+        }
+
+        function adicionarUnitarioAoCarrinho(id, tipo) {
+            const produto = tipo === 'duplo' ? DUPLOS_DATA.find(p => p.id === id) : SABORES_DATA.find(p => p.id === id);
+            const cobertura = document.querySelector('input[name="cobertura"]:checked').value;
+            const qtd = parseInt(document.getElementById('qtd-modal').innerText);
+
+            carrinho.push({
+                idUnique: Date.now(),
+                idRef: produto.id,
+                nome: produto.nome,
+                precoOriginal: produto.preco,
+                preco: produto.preco * qtd,
+                qtd: qtd,
+                cobertura: cobertura,
+                tipo: 'unitario',
+                categoria: tipo
+            });
+
+            fecharModal();
+            atualizarCarrinhoUI();
+            toggleCarrinho();
+        }
+
         function toggleCarrinho() {
             document.getElementById('carrinho-lateral').classList.toggle('active');
-            // Ao abrir ou fechar, limpa o erro
             document.getElementById('error-message').style.display = 'none';
         }
 
@@ -604,11 +692,33 @@
             return comboAtual.precoBase + extra;
         }
 
+        function addComboAoCarrinho() {
+            let resumo = [];
+            Object.entries(comboAtual.selecao).forEach(([id, cobs]) => {
+                const s = SABORES_DATA.find(x => x.id == id);
+                Object.entries(cobs).forEach(([cob, qtd]) => {
+                    if(qtd > 0) resumo.push(`${qtd}x ${s.nome} (${cob})`);
+                });
+            });
+
+            carrinho.push({
+                idUnique: Date.now(),
+                nome: `Combo ${comboAtual.tamanho} Unidades`,
+                preco: calculateComboPrice(),
+                resumo: resumo.join(', '),
+                tipo: 'combo'
+            });
+
+            fecharModal();
+            atualizarCarrinhoUI();
+            toggleCarrinho();
+        }
+
         function setMetodo(metodo) {
             metodoRecebimento = metodo;
             document.getElementById('btn-entrega').classList.toggle('active', metodo === 'entrega');
             document.getElementById('btn-retirada').classList.toggle('active', metodo === 'retirada');
-            document.getElementById('error-message').style.display = 'none'; // Limpa erro ao trocar método
+            document.getElementById('error-message').style.display = 'none';
             atualizarCarrinhoUI();
         }
 
@@ -623,11 +733,33 @@
             const subtotalEl = document.getElementById('cart-subtotal');
             const taxaEl = document.getElementById('cart-taxa');
             const totalEl = document.getElementById('cart-total');
+            const countEl = document.getElementById('cart-count');
+
             document.getElementById('entrega-container').style.display = carrinho.length > 0 ? 'block' : 'none';
 
             let subtotal = 0;
+            let totalDuplosGeral = 0;
+
+            // Primeiro passo: Identificar quantidade total de duplos para aplicar desconto
+            carrinho.forEach(item => {
+                if (item.categoria === 'duplo') {
+                    totalDuplosGeral += item.qtd;
+                }
+            });
+
+            const precoDuploUnitario = totalDuplosGeral >= 2 ? 10 : 11;
+
             list.innerHTML = carrinho.map(item => {
+                let precoExibicao = item.preco;
+                
+                // Aplicar lógica de desconto dinâmico no objeto para o cálculo final
+                if (item.categoria === 'duplo') {
+                    item.preco = precoDuploUnitario * item.qtd;
+                    precoExibicao = item.preco;
+                }
+
                 subtotal += item.preco;
+
                 return `
                     <div class="cart-item">
                         <div class="cart-item-header">
@@ -647,153 +779,80 @@
             let taxa = 0;
             if (metodoRecebimento === 'entrega') {
                 const bairroVal = document.getElementById('bairro-checkout')?.value || "";
-                const ruaVal = document.getElementById('end-rua')?.value || "";
-                const numVal = document.getElementById('end-numero')?.value || "";
-                const compVal = document.getElementById('end-complemento')?.value || "";
-
                 taxa = (bairroVal && bairroVal !== 'outros') ? parseFloat(bairroVal) : 0;
-                checkoutDetalhes.innerHTML = `
+                
+                if (!checkoutDetalhes.innerHTML || !document.getElementById('bairro-checkout')) {
+                   checkoutDetalhes.innerHTML = `
                     <div class="form-group">
                         <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Bairro:</label>
                         <select id="bairro-checkout" class="address-input" onchange="atualizarCarrinhoUI()">
-                            <option value="">Selecione...</option>
-                            <option value="4" ${bairroVal === '4' ? 'selected' : ''}>Vila de Ponta Negra (R$4)</option>
-                            <option value="6" ${bairroVal === '6' ? 'selected' : ''}>Ponta Negra / Capim Macio (R$6)</option>
-                            <option value="13" ${bairroVal === '13' ? 'selected' : ''}>Nova Parnamirim / Neópolis (R$13)</option>
-                            <option value="18" ${bairroVal === '18' ? 'selected' : ''}>Centro / Tirol (R$18)</option>
-                            <option value="outros" ${bairroVal === 'outros' ? 'selected' : ''}>Outro bairro (A consultar)</option>
+                            <option value="0">Selecione o bairro...</option>
+                            <option value="5">Centro - R$ 5,00</option>
+                            <option value="7">Bairro Exemplo 1 - R$ 7,00</option>
+                            <option value="10">Bairro Exemplo 2 - R$ 10,00</option>
                         </select>
                     </div>
-                    <div style="display: flex; gap: 8px; margin-top: 8px;">
-                        <div style="flex: 2;">
+                    <div style="display:flex; gap:10px; margin-top:8px">
+                        <div style="flex:2">
                             <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Rua:</label>
-                            <input type="text" id="end-rua" class="address-input" placeholder="Rua..." value="${ruaVal}" oninput="document.getElementById('error-message').style.display='none'">
+                            <input type="text" id="end-rua" class="address-input" placeholder="Ex: Av. Brasil">
                         </div>
-                        <div style="flex: 1;">
+                        <div style="flex:1">
                             <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Nº:</label>
-                            <input type="text" id="end-numero" class="address-input" placeholder="Nº" value="${numVal}" oninput="document.getElementById('error-message').style.display='none'">
+                            <input type="text" id="end-numero" class="address-input" placeholder="123">
                         </div>
                     </div>
-                    <div style="margin-top: 8px;">
-                        <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Complemento (Opcional):</label>
-                        <input type="text" id="end-complemento" class="address-input" placeholder="Apto, bloco, ponto de ref..." value="${compVal}">
-                    </div>
-                `;
+                   `;
+                }
             } else {
-                checkoutDetalhes.innerHTML = `<div style="text-align:center; padding:5px 0"><p style="font-size:0.75rem; font-weight:600; color:var(--accent)">📍 Retirada: Vila de Ponta Negra<br><span style="font-weight:400; color:var(--text-muted)">mais informações via whatsapp</span></p></div>`;
+                checkoutDetalhes.innerHTML = `<p style="text-align:center; padding:10px; color:var(--accent)"><b>Retirada:</b> Rua Exemplo, 123 - Centro</p>`;
             }
 
-            document.getElementById('cart-count').innerText = carrinho.length;
-            document.getElementById('cart-label').innerText = carrinho.length === 1 ? 'Item' : 'Itens';
-            
             subtotalEl.innerText = `R$ ${subtotal.toFixed(2)}`;
-            taxaEl.innerText = metodoRecebimento === 'retirada' ? 'R$ 0,00' : (taxa > 0 ? `R$ ${taxa.toFixed(2)}` : 'A combinar');
+            taxaEl.innerText = `R$ ${taxa.toFixed(2)}`;
             totalEl.innerText = `R$ ${(subtotal + taxa).toFixed(2)}`;
-        }
-
-        function addComboAoCarrinho() {
-            const itensResumo = [];
-            Object.keys(comboAtual.selecao).forEach(sId => {
-                const sObj = SABORES_DATA.find(x => x.id == sId);
-                const sel = comboAtual.selecao[sId];
-                if(sel.MeioAmargo > 0) itensResumo.push(`${sel.MeioAmargo}x ${sObj.nome} (M. Amargo)`);
-                if(sel.AoLeite > 0) itensResumo.push(`${sel.AoLeite}x ${sObj.nome} (Ao Leite)`);
-                if(sel.Branco > 0) itensResumo.push(`${sel.Branco}x ${sObj.nome} (Branco)`);
-            });
-            carrinho.push({ tipo: 'combo', nome: `Combo ${comboAtual.tamanho}`, resumo: itensResumo.join('<br>'), preco: calculateComboPrice(), idUnique: Date.now() });
-            fecharModal(); atualizarCarrinhoUI(); toggleCarrinho();
-        }
-
-        function abrirModalSabor(id) {
-            const s = SABORES_DATA.find(x => x.id === id);
-            const container = document.getElementById('modal-container');
-            container.innerHTML = `
-                <h2 style="font-family: 'Playfair Display'; font-size: 2rem; margin-bottom:10px;">${s.nome}</h2>
-                <p style="color:var(--text-muted); margin-bottom:20px;">${s.desc}</p>
-                <div style="margin-bottom:20px;">
-                    <label style="display:block; margin-bottom:10px; font-weight:600;">Escolha a Cobertura:</label>
-                    ${COBERTURAS.map(c => `
-                        <label style="display:block; margin-bottom:8px; cursor:pointer;">
-                            <input type="radio" name="cob-unitaria" value="${c}" checked> ${c}
-                        </label>
-                    `).join('')}
-                </div>
-                <div style="margin-bottom:20px;">
-                    <label style="display:block; margin-bottom:10px; font-weight:600;">Quantidade:</label>
-                    <div class="qty-controls" style="justify-content:flex-start;">
-                         <button class="btn-qty-mini" onclick="this.nextElementSibling.innerText = Math.max(1, parseInt(this.nextElementSibling.innerText)-1)">-</button>
-                         <span id="qtd-sabor-modal" style="min-width:40px; text-align:center; font-weight:bold;">1</span>
-                         <button class="btn-qty-mini" onclick="this.previousElementSibling.innerText = parseInt(this.previousElementSibling.innerText)+1">+</button>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="addSaborAoCarrinho(${s.id})">Adicionar R$ ${s.preco.toFixed(2)}</button>
-            `;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function addSaborAoCarrinho(id) {
-            const s = SABORES_DATA.find(x => x.id === id);
-            const cob = document.querySelector('input[name="cob-unitaria"]:checked').value;
-            const qtd = parseInt(document.getElementById('qtd-sabor-modal').innerText);
-            carrinho.push({
-                tipo: 'unitario',
-                idSabor: id,
-                nome: s.nome,
-                cobertura: cob,
-                qtd: qtd,
-                preco: s.preco * qtd,
-                idUnique: Date.now()
-            });
-            fecharModal(); atualizarCarrinhoUI(); toggleCarrinho();
+            countEl.innerText = carrinho.length;
         }
 
         function enviarWhatsApp() {
             if (carrinho.length === 0) return;
 
-            const erroEl = document.getElementById('error-message');
+            let msg = `*NOVO PEDIDO - PAMPA ALFAJORES*%0A%0A`;
+            let totalGeral = 0;
 
+            carrinho.forEach(item => {
+                msg += `*${item.nome}*%0A`;
+                msg += `${item.tipo === 'unitario' ? `Qtd: ${item.qtd} | ${item.cobertura}` : item.resumo}%0A`;
+                msg += `Subtotal: R$ ${item.preco.toFixed(2)}%0A%0A`;
+                totalGeral += item.preco;
+            });
+
+            let taxa = 0;
             if (metodoRecebimento === 'entrega') {
-                const bairro = document.getElementById('bairro-checkout').value;
+                const bairro = document.getElementById('bairro-checkout');
                 const rua = document.getElementById('end-rua').value;
                 const num = document.getElementById('end-numero').value;
 
-                if (!bairro || !rua || !num) {
-                    erroEl.style.display = 'block';
-                    document.getElementById('itens-carrinho').scrollTo({ top: 0, behavior: 'smooth' });
+                if (!bairro.value || bairro.value == "0" || !rua || !num) {
+                    document.getElementById('error-message').style.display = 'block';
                     return;
                 }
-            }
 
-            erroEl.style.display = 'none';
-
-            let texto = `*NOVO PEDIDO - PAMPA*\n\n`;
-            carrinho.forEach(item => {
-                texto += `*${item.nome}*\n`;
-                texto += item.tipo === 'unitario' ? `${item.qtd}x ${item.cobertura}\n` : `${item.resumo.replace(/<br>/g, '\n')}\n`;
-                texto += `R$ ${item.preco.toFixed(2)}\n\n`;
-            });
-
-            texto += `--------------------------\n`;
-            texto += `*Subtotal:* ${document.getElementById('cart-subtotal').innerText}\n`;
-            texto += `*Entrega:* ${document.getElementById('cart-taxa').innerText}\n`;
-            texto += `*TOTAL: ${document.getElementById('cart-total').innerText}*\n\n`;
-
-            if (metodoRecebimento === 'entrega') {
-                const bSelect = document.getElementById('bairro-checkout');
-                const bText = bSelect.options[bSelect.selectedIndex].text;
-                texto += `*ENTREGA EM:* ${document.getElementById('end-rua').value}, ${document.getElementById('end-numero').value}\n`;
-                texto += `*Bairro:* ${bText}\n`;
-                const comp = document.getElementById('end-complemento').value;
-                if(comp) texto += `*Comp:* ${comp}`;
+                taxa = parseFloat(bairro.value);
+                msg += `*Entrega:* ${bairro.options[bairro.selectedIndex].text}%0A`;
+                msg += `Endereço: ${rua}, nº ${num}%0A`;
             } else {
-                texto += `*MÉTODO: RETIRADA NA LOJA*`;
+                msg += `*Método:* Retirada no local%0A`;
             }
 
-            const fone = "5584991859979"; // Ajuste seu número aqui
-            window.open(`https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`);
+            msg += `%0A*TOTAL: R$ ${(totalGeral + taxa).toFixed(2)}*`;
+            
+            // NÃO ALTERAR O NÚMERO ABAIXO
+            window.open(`https://wa.me/5584991859979?text=${msg}`);
         }
 
         renderHome();
+        atualizarCarrinhoUI();
     </script>
 </body>
 </html>
