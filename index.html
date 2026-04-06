@@ -131,27 +131,27 @@
 
         .sobre-content { flex: 1; }
         .sobre-content h2 { 
-            font-family: 'Playfair Display', serif; 
+            font-family: 'Playfair Display', serif;
             font-size: 2.8rem; 
             margin-bottom: 25px; 
             color: var(--primary);
         }
         .sobre-content p { 
-            color: var(--text-muted); 
+            color: var(--text-muted);
             line-height: 1.8; 
             margin-bottom: 20px;
             font-size: 1.05rem;
         }
 
         .sobre-img-container { 
-            flex: 1; 
+            flex: 1;
             height: 500px; 
             border-radius: 30px; 
             overflow: hidden; 
             box-shadow: var(--shadow);
         }
         .sobre-img-container img { 
-            width: 100%; 
+            width: 100%;
             height: 100%; 
             object-fit: cover; 
         }
@@ -175,7 +175,8 @@
         .card:hover { transform: translateY(-10px); }
 
         .card-img {
-            width: 100%; height: 280px;
+            width: 100%;
+            height: 280px;
             background-size: cover; background-position: center;
             background-color: #eee;
         }
@@ -187,13 +188,15 @@
 
         /* --- MODAL --- */
         #modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); z-index: 2000;
             justify-content: center; align-items: center; padding: 20px;
         }
 
         .modal-content {
-            background: var(--white); max-width: 900px; width: 100%;
+            background: var(--white);
+            max-width: 900px; width: 100%;
             border-radius: 30px; display: flex; position: relative;
             max-height: 90vh; overflow: hidden;
             animation: slideUp 0.4s ease;
@@ -206,16 +209,19 @@
 
         /* --- COMBO BUILDER --- */
         .combo-header {
-            position: sticky; top: -40px; background: white; z-index: 5;
+            position: sticky;
+            top: -40px; background: white; z-index: 5;
             padding-bottom: 20px; border-bottom: 1px solid #eee; margin-bottom: 20px;
             margin-top: -40px; padding-top: 40px;
         }
         
         .progress-bar-container {
-            width: 100%; height: 8px; background: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden;
+            width: 100%;
+            height: 8px; background: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden;
         }
         .progress-fill {
-            height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease;
+            height: 100%;
+            background: var(--accent); width: 0%; transition: width 0.3s ease;
         }
 
         .modal-footer-sticky {
@@ -229,7 +235,8 @@
         }
 
         .sabor-group-card {
-            background: #fff; border: 1px solid #eee; border-radius: 18px;
+            background: #fff;
+            border: 1px solid #eee; border-radius: 18px;
             padding: 20px; margin-bottom: 15px; transition: var(--transition);
         }
         .sabor-group-card:hover { border-color: var(--accent); }
@@ -237,31 +244,33 @@
         .sabor-img-mini { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; }
         
         .cobertura-row {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between; align-items: center;
             padding: 10px 0; border-top: 1px solid #f5f5f5;
         }
         .cobertura-name { font-size: 0.9rem; color: var(--text-muted); }
         
         .qty-controls { display: flex; align-items: center; gap: 15px; }
         .btn-qty-mini {
-            width: 32px; height: 32px; border-radius: 50%; border: 1px solid #ddd;
+            width: 32px;
+            height: 32px; border-radius: 50%; border: 1px solid #ddd;
             background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: var(--transition); font-weight: bold;
         }
         .btn-qty-mini:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
         .btn-qty-mini:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        /* --- AJUSTES NO CARRINHO LATERAL (FOCO DO PEDIDO) --- */
+        /* --- AJUSTES NO CARRINHO LATERAL --- */
         #carrinho-lateral {
-            position: fixed; right: -450px; top: 0; width: 400px; height: 100%;
+            position: fixed;
+            right: -450px; top: 0; width: 400px; height: 100%;
             background: var(--white); z-index: 3000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 25px;
-            display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            padding: 25px; display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
         #carrinho-lateral.active { right: 0; }
         
         #itens-carrinho { 
-            flex: 1; 
+            flex: 1;
             overflow-y: auto; 
             margin-bottom: 10px;
             padding-right: 5px;
@@ -293,19 +302,20 @@
         }
 
         .method-selector { 
-            display: flex; 
+            display: flex;
             gap: 8px; 
             margin: 10px 0; 
         }
         .method-card {
-            flex: 1; padding: 8px; border: 1px solid #eee; border-radius: 12px;
+            flex: 1;
+            padding: 8px; border: 1px solid #eee; border-radius: 12px;
             text-align: center; cursor: pointer; transition: var(--transition);
         }
         .method-card.active { border-color: var(--accent); background: #fffcf5; border-width: 2px; }
         .method-card span { font-size: 1.2rem; }
 
         .checkout-box { 
-            background: #f7f7f7; 
+            background: #f7f7f7;
             border-radius: 12px; 
             padding: 12px; 
             margin-top: 5px;
@@ -313,19 +323,21 @@
         }
         
         .address-input { 
-            width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; 
+            width: 100%;
+            padding: 8px 10px; border-radius: 8px; border: 1px solid #ddd; 
             margin-top: 4px; font-family: inherit; font-size: 0.85rem;
         }
 
         .cart-footer {
-            padding-top: 15px; 
+            padding-top: 15px;
             border-top: 2px solid #eee; 
             margin-top: 10px;
             background: var(--white);
         }
 
         .btn-action {
-            width: 100%; background: var(--accent); color: white; border: none;
+            width: 100%;
+            background: var(--accent); color: white; border: none;
             padding: 15px; border-radius: 12px; font-weight: 600; cursor: pointer;
             transition: var(--transition); margin-top: 12px; font-size: 1rem;
         }
@@ -342,7 +354,8 @@
 <body>
 
     <header id="main-header">
-        <img src="logo.png" alt="PAMPA Logo" class="logo-img"> <nav>
+        <img src="logo.png" alt="PAMPA Logo" class="logo-img"> 
+        <nav>
             <a href="#">Início</a>
             <a href="#sabores">Sabores</a>
             <a href="#duplos">Duplos</a>
@@ -454,8 +467,7 @@
                 </div>
             </div>
 
-            <div id="checkout-detalhes" class="checkout-box">
-                </div>
+            <div id="checkout-detalhes" class="checkout-box"></div>
         </div>
 
         <div class="cart-footer">
@@ -535,7 +547,6 @@
         function abrirModalSabor(id, tipo) {
             const produto = tipo === 'duplo' ? DUPLOS_DATA.find(p => p.id === id) : SABORES_DATA.find(p => p.id === id);
             const container = document.getElementById('modal-container');
-            
             container.innerHTML = `
                 <div style="text-align:center; padding-bottom: 20px;">
                     <img src="${produto.img}" style="width:120px; border-radius:15px; margin-bottom:15px;">
@@ -586,7 +597,6 @@
                 tipo: 'unitario',
                 categoria: tipo
             });
-
             fecharModal();
             atualizarCarrinhoUI();
             toggleCarrinho();
@@ -619,7 +629,6 @@
             const container = document.getElementById('modal-container');
             const totalSelecionado = calculateTotalCombo();
             const percent = (totalSelecionado / comboAtual.tamanho) * 100;
-
             let saboresHtml = SABORES_DATA.map(sabor => `
                 <div class="sabor-group-card">
                     <div class="sabor-info">
@@ -645,7 +654,6 @@
                     }).join('')}
                 </div>
             `).join('');
-
             container.innerHTML = `
                 <div class="combo-header">
                     <h2 style="font-family: 'Playfair Display';">Monte seu Combo</h2>
@@ -700,7 +708,6 @@
                     if(qtd > 0) resumo.push(`${qtd}x ${s.nome} (${cob})`);
                 });
             });
-
             carrinho.push({
                 idUnique: Date.now(),
                 nome: `Combo ${comboAtual.tamanho} Unidades`,
@@ -734,32 +741,25 @@
             const taxaEl = document.getElementById('cart-taxa');
             const totalEl = document.getElementById('cart-total');
             const countEl = document.getElementById('cart-count');
-
             document.getElementById('entrega-container').style.display = carrinho.length > 0 ? 'block' : 'none';
 
             let subtotal = 0;
             let totalDuplosGeral = 0;
-
-            // Primeiro passo: Identificar quantidade total de duplos para aplicar desconto
+            
             carrinho.forEach(item => {
                 if (item.categoria === 'duplo') {
                     totalDuplosGeral += item.qtd;
                 }
             });
-
             const precoDuploUnitario = totalDuplosGeral >= 2 ? 10 : 11;
-
+            
             list.innerHTML = carrinho.map(item => {
                 let precoExibicao = item.preco;
-                
-                // Aplicar lógica de desconto dinâmico no objeto para o cálculo final
                 if (item.categoria === 'duplo') {
                     item.preco = precoDuploUnitario * item.qtd;
                     precoExibicao = item.preco;
                 }
-
                 subtotal += item.preco;
-
                 return `
                     <div class="cart-item">
                         <div class="cart-item-header">
@@ -778,18 +778,19 @@
 
             let taxa = 0;
             if (metodoRecebimento === 'entrega') {
-                const bairroVal = document.getElementById('bairro-checkout')?.value || "";
-                taxa = (bairroVal && bairroVal !== 'outros') ? parseFloat(bairroVal) : 0;
+                const bairroVal = document.getElementById('bairro-checkout')?.value || "0";
+                taxa = parseFloat(bairroVal);
                 
-                if (!checkoutDetalhes.innerHTML || !document.getElementById('bairro-checkout')) {
-                   checkoutDetalhes.innerHTML = `
+                checkoutDetalhes.innerHTML = `
                     <div class="form-group">
                         <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Bairro:</label>
                         <select id="bairro-checkout" class="address-input" onchange="atualizarCarrinhoUI()">
-                            <option value="0">Selecione o bairro...</option>
-                            <option value="5">Centro - R$ 5,00</option>
-                            <option value="7">Bairro Exemplo 1 - R$ 7,00</option>
-                            <option value="10">Bairro Exemplo 2 - R$ 10,00</option>
+                            <option value="0" ${bairroVal == '0' ? 'selected' : ''}>Selecione o bairro...</option>
+                            <option value="4" ${bairroVal == '4' ? 'selected' : ''}>Vila de Ponta Negra - R$ 4,00</option>
+                            <option value="6" ${bairroVal == '6' ? 'selected' : ''}>Ponta Negra / Capim Macio - R$ 6,00</option>
+                            <option value="13" ${bairroVal == '13' ? 'selected' : ''}>Nova Parnamirim / Neópolis - R$ 13,00</option>
+                            <option value="18" ${bairroVal == '18' ? 'selected' : ''}>Centro / Tirol - R$ 18,00</option>
+                            <option value="0.01" ${bairroVal == '0.01' ? 'selected' : ''}>Outro bairro (A consultar)</option>
                         </select>
                     </div>
                     <div style="display:flex; gap:10px; margin-top:8px">
@@ -802,10 +803,17 @@
                             <input type="text" id="end-numero" class="address-input" placeholder="123">
                         </div>
                     </div>
-                   `;
-                }
+                    <div style="margin-top:8px">
+                        <label style="font-size:0.65rem; font-weight:700; color:#888; text-transform:uppercase">Complemento (Opcional):</label>
+                        <input type="text" id="end-complemento" class="address-input" placeholder="Apto, bloco, etc.">
+                    </div>
+                `;
             } else {
-                checkoutDetalhes.innerHTML = `<p style="text-align:center; padding:10px; color:var(--accent)"><b>Retirada:</b> Rua Exemplo, 123 - Centro</p>`;
+                checkoutDetalhes.innerHTML = `
+                    <div style="text-align:center; padding:10px; color:var(--accent)">
+                        <p><b>Retirada:</b> Vila de Ponta Negra</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Mais informações via WhatsApp</p>
+                    </div>`;
             }
 
             subtotalEl.innerText = `R$ ${subtotal.toFixed(2)}`;
@@ -832,6 +840,7 @@
                 const bairro = document.getElementById('bairro-checkout');
                 const rua = document.getElementById('end-rua').value;
                 const num = document.getElementById('end-numero').value;
+                const comp = document.getElementById('end-complemento').value;
 
                 if (!bairro.value || bairro.value == "0" || !rua || !num) {
                     document.getElementById('error-message').style.display = 'block';
@@ -840,14 +849,12 @@
 
                 taxa = parseFloat(bairro.value);
                 msg += `*Entrega:* ${bairro.options[bairro.selectedIndex].text}%0A`;
-                msg += `Endereço: ${rua}, nº ${num}%0A`;
+                msg += `Endereço: ${rua}, nº ${num}${comp ? `, ${comp}` : ''}%0A`;
             } else {
-                msg += `*Método:* Retirada no local%0A`;
+                msg += `*Método:* Retirada (Vila de Ponta Negra)%0A`;
             }
 
             msg += `%0A*TOTAL: R$ ${(totalGeral + taxa).toFixed(2)}*`;
-            
-            // NÃO ALTERAR O NÚMERO ABAIXO
             window.open(`https://wa.me/5584991859979?text=${msg}`);
         }
 
